@@ -1,5 +1,6 @@
 from Bio import pairwise2
 
+
 def compare_proteins(translated_proteins, fasta_proteins):
     """
     Compare translated proteins from CDS with proteins from the FASTA file.
@@ -10,7 +11,9 @@ def compare_proteins(translated_proteins, fasta_proteins):
         best_match = None
         best_score = 0
         for fasta_protein in fasta_proteins:
-            alignments = pairwise2.align.globalxx(translated_protein, fasta_protein, one_alignment_only=True)
+            alignments = pairwise2.align.globalxx(
+                translated_protein, fasta_protein, one_alignment_only=True
+            )
             if alignments:
                 score = alignments[0].score
                 if score > best_score:
@@ -19,6 +22,7 @@ def compare_proteins(translated_proteins, fasta_proteins):
         if best_match:
             matches.append((translated_protein, best_match, best_score))
     return matches
+
 
 def print_comparison_results(matches):
     """Prints the best matches with scores."""

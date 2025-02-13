@@ -1,6 +1,7 @@
 from Bio import SeqIO
 from typing import List
 
+
 def parse_protein_fasta(fasta_path: str) -> List[str]:
     """
     Parses a protein FASTA file and returns a list of protein sequences as strings.

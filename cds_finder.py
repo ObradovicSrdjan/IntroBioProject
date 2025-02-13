@@ -1,6 +1,6 @@
-from Bio import SeqIO
 from typing import List
 from Bio.SeqRecord import SeqRecord
+
 
 def get_coding_sequences(sequence: SeqRecord) -> List[str]:
     """Finds coding sequences (CDS) in a DNA sequence.
@@ -22,11 +22,13 @@ def get_coding_sequences(sequence: SeqRecord) -> List[str]:
 
         for stop_codon in stop_codons:
             temp_stop_index = sequence.seq.find(stop_codon, start_index)
-            if temp_stop_index != -1 and (stop_index == -1 or temp_stop_index < stop_index):
+            if temp_stop_index != -1 and (
+                stop_index == -1 or temp_stop_index < stop_index
+            ):
                 stop_index = temp_stop_index
 
         if stop_index != -1 and (stop_index - start_index) > 5:
-            coding_sequence = str(sequence.seq[start_index:stop_index + 3])
+            coding_sequence = str(sequence.seq[start_index : stop_index + 3])
             if coding_sequence not in coding_sequences:
                 coding_sequences.append(coding_sequence)
 
