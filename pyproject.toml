@@ -1,0 +1,18 @@
+[project]
+name = "introproject"
+version = "0.1.0"
+description = "A BioPython-based project for genome and protein sequence analysis."
+authors = []
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "biopython>=1.81",  # BioPython for sequence parsing
+    "argparse"  # CLI argument handling (built-in but sometimes needed explicitly)
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false

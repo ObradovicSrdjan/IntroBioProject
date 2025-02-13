@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# macOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Logs and debugging
+logs/
+*.log
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Pylint and mypy
+.mypy_cache/
+.pylintrc
+.pytest_cache/
+
+# Dependencies
+pip-wheel-metadata/
+poetry.lock
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Build and dist files
+build/
+dist/
+*.egg-info/
+MANIFEST
+
+# Docker
+docker-compose.override.yml
