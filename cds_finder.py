@@ -3,35 +3,31 @@ from Bio.SeqRecord import SeqRecord
 
 
 def get_coding_sequences(sequence: SeqRecord) -> List[str]:
-    """Finds coding sequences (CDS) in a DNA sequence.
-
-    Args:
-        sequence (SeqRecord): A Biopython SeqRecord containing the DNA sequence.
-
-    Returns:
-        List[str]: List of CDS sequences from start codon (ATG) to stop codon.
-    """
     start_codon = "ATG"
+    coding_sequences = []
+    whole_genome_sequence: str = str(sequence.seq)
+
+    coding_sequence = ""
+    for i in range(0, len(whole_genome_sequence) - 2, 1):
+        codon = whole_genome_sequence[i : i + 3]
+        if codon == start_codon:
+            coding_sequence, end_of_cd = read_orf(whole_genome_sequence[i:])
+            coding_sequences.append(coding_sequence)
+
+        i = end_of_cd  # Fast forward the lookup
+    return coding_sequences
+
+
+def read_orf(sliced_dna_sequence: str):
+
     stop_codons = {"TAA", "TAG", "TGA"}
 
-    coding_sequences = []
-    start_index = 0
+    coding_sequence = ""
 
-    while (start_index := sequence.seq.find(start_codon, start_index)) != -1:
-        stop_index = -1
+    for i in range(0, len(sliced_dna_sequence) - 2, 3):
+        codon = sliced_dna_sequence[i : i + 3]
+        coding_sequence += codon
+        if codon in stop_codons:
+            return coding_sequence, i + 3
 
-        for stop_codon in stop_codons:
-            temp_stop_index = sequence.seq.find(stop_codon, start_index)
-            if temp_stop_index != -1 and (
-                stop_index == -1 or temp_stop_index < stop_index
-            ):
-                stop_index = temp_stop_index
-
-        if stop_index != -1 and (stop_index - start_index) > 5:
-            coding_sequence = str(sequence.seq[start_index : stop_index + 3])
-            if coding_sequence not in coding_sequences:
-                coding_sequences.append(coding_sequence)
-
-        start_index += len(start_codon)
-
-    return coding_sequences
+    return coding_sequence + "!", -1
