@@ -3,7 +3,7 @@ from Bio.SeqRecord import SeqRecord
 
 
 def get_coding_sequences(sequence: SeqRecord) -> List[str]:
-    start_codon = "ATG"
+    start_codon = "AUG"
     coding_sequences = []
     whole_genome_sequence: str = str(sequence.seq)
 
@@ -20,7 +20,7 @@ def get_coding_sequences(sequence: SeqRecord) -> List[str]:
 
 def read_orf(sliced_dna_sequence: str):
 
-    stop_codons = {"TAA", "TAG", "TGA"}
+    stop_codons = {"UAA", "UAG", "UGA"}
 
     coding_sequence = ""
 
