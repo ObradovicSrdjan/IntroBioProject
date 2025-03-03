@@ -1,7 +1,7 @@
 import pytest
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from transcriptor import (
+from transcription.transcriptor import (
     transcribe_dna_into_rna,
 )
 

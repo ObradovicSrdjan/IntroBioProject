@@ -1,4 +1,6 @@
 import os
+from typing import List
+from Bio.SeqRecord import SeqRecord
 
 
 codon_to_amino_acid = {
@@ -69,13 +71,13 @@ codon_to_amino_acid = {
 }
 
 
-def translate_dna_to_protein(dna_sequence):
+def translate_rna_to_protein(rna_sequence: str):
     protein_sequence = ""
-    for i in range(0, len(dna_sequence) - 2, 1):
-        codon = dna_sequence[i : i + 3]
+    for i in range(0, len(rna_sequence) - 2, 1):
+        codon = rna_sequence[i : i + 3]
         if codon in codon_to_amino_acid:
             if codon_to_amino_acid[codon] == "M":
-                protein_sequence, end_of_transcription = read_orfs(dna_sequence[i:])
+                protein_sequence, end_of_transcription = read_orfs(rna_sequence[i:])
     return protein_sequence
 
 
@@ -93,8 +95,10 @@ def read_orfs(sliced_dna_sequence: str):
     return protein_sequence + "!", -1
 
 
-def translate_multiple_dna_sequences(coding_sequences):
-    return [translate_dna_to_protein(seq) for seq in coding_sequences]
+def translate_multiple_rna_sequences(coding_sequences: List[SeqRecord]):
+    return [
+        translate_rna_to_protein(str(sequence.seq)) for sequence in coding_sequences
+    ]
 
 
 def save_protein_sequences_to_fasta(protein_sequences, file_path="proteins.fasta"):
