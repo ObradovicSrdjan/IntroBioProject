@@ -49,7 +49,7 @@ def main():
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
 
-    start(args.annotated_genes_fasta, args.genome_fasta)
+    start(args.annotated_genes_fasta, args.genome_fasta, args.protein_fasta)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import pytest
-from protein_translator import (
+from translation.protein_translator import (
     translate_dna_to_protein,
     translate_multiple_dna_sequences,
     save_protein_sequences_to_fasta,

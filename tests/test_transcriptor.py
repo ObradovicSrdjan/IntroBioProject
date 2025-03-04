@@ -2,7 +2,7 @@ import pytest
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from transcription.transcriptor import (
-    transcribe_dna_into_rna,
+    transcribe_dna_sequence_into_rna,
 )
 
 
@@ -21,7 +21,7 @@ from transcription.transcriptor import (
     ],
 )
 def test_transcribe_dna_into_rna(dna_record, expected_rna):
-    rna_record = transcribe_dna_into_rna(dna_record)
+    rna_record = transcribe_dna_sequence_into_rna(dna_record)
     assert str(rna_record.seq) == expected_rna
     assert rna_record.id == dna_record.id
     assert rna_record.description == "RNA sequence"
@@ -29,4 +29,4 @@ def test_transcribe_dna_into_rna(dna_record, expected_rna):
 
 def test_transcribe_dna_into_rna_none_sequence():
     with pytest.raises(ValueError, match="The sequence attribute is None."):
-        transcribe_dna_into_rna(SeqRecord(None, id="seq1"))
+        transcribe_dna_sequence_into_rna(SeqRecord(None, id="seq1"))
