@@ -4,11 +4,12 @@ import logging
 from main import start
 
 DEFAULT_ECOLI_WHOLE_GENOME_FASTA_FILE = (
-    "data/ecoli/genome/GCF_000005845.2_ASM584v2_genomic.fna"
+    "data/verified_data/ecoli/genome/GCF_000005845.2_ASM584v2_genomic.fna"
 )
-DEFAULT_ECOLI_PROTEIN_FASTA_FILE = "data/ecoli/proteins/uniprotkb_Escherichia_coli_str_K_12_sub_2025_02_12.fasta"  # cspell:disable-line
-DEFAULT_ECOLI_ANNOTATED_GENES_FASTA_FILE = "data/ecoli/genes/MG1655_annotated_genes.fna"
-RNA_FILE = "generated_data/ecoli/whole_genome_rna.fasta"
+DEFAULT_ECOLI_PROTEIN_FASTA_FILE = "data/verified_data/ecoli/proteins/uniprotkb_Escherichia_coli_str_K_12_sub_2025_02_12.fasta"  # cspell:disable-line
+DEFAULT_ECOLI_ANNOTATED_GENES_FASTA_FILE = (
+    "data/verified_data/ecoli/genes/MG1655_annotated_genes.fna"
+)
 
 
 def main():

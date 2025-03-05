@@ -4,7 +4,7 @@ import pytest
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 
-from coding_sequence_finder import (
+from gene_prediction.coding_sequence_finder import (
     get_coding_sequences,
     get_coding_sequences_for_gene,
     read_orf,

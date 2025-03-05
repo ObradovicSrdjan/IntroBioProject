@@ -108,12 +108,12 @@ def translate_multiple_rna_sequences(coding_sequences: List[SeqRecord]) -> List[
 
 
 def save_protein_sequences_to_fasta(
-    protein_sequences, file_path="proteins.fasta"
+    protein_sequences: List[str], file_path="proteins.fasta"
 ) -> None:
     logging.info(f"Saving protein sequences to {file_path}")
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "w") as fasta_file:
         for i, protein in enumerate(protein_sequences):
-            fasta_file.write(f">Protein_{i+1}\n")
+            fasta_file.write(f">Predicted_protein_{i+1}\n")
             fasta_file.write(f"{protein}\n")
     logging.info(f"Proteins saved to {file_path}")
