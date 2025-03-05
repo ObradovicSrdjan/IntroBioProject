@@ -1,4 +1,5 @@
-from typing import List, Iterator, Tuple
+from typing import Iterator, List, Tuple
+
 from Bio.SeqRecord import SeqRecord
 
 START_CODON = "AUG"

@@ -1,5 +1,6 @@
-from Bio import SeqIO
 from typing import List
+
+from Bio import SeqIO
 
 
 def parse_protein_fasta(fasta_path: str) -> List[str]:

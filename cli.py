@@ -1,7 +1,7 @@
 import argparse
 import logging
-from main import start
 
+from main import start
 
 DEFAULT_ECOLI_WHOLE_GENOME_FASTA_FILE = (
     "data/ecoli/genome/GCF_000005845.2_ASM584v2_genomic.fna"

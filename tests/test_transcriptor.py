@@ -1,9 +1,8 @@
 import pytest
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from transcription.transcriptor import (
-    transcribe_dna_sequence_into_rna,
-)
+
+from transcription.transcriptor import transcribe_dna_sequence_into_rna
 
 
 @pytest.mark.parametrize(

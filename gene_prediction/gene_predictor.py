@@ -1,11 +1,14 @@
-import os
 import logging
+import os
 from typing import Iterator
+
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 
 
-def get_annotated_genes(annotated_genes_fasta: str) -> Iterator[SeqRecord]:
+def get_annotated_genes(
+    whole_genome_fasta: str, annotated_genes_fasta: str
+) -> Iterator[SeqRecord]:
     if os.path.exists(annotated_genes_fasta):
         logging.info(f"Loading annotated genes from: {annotated_genes_fasta}...")
         annotated_genes = SeqIO.parse(annotated_genes_fasta, "fasta")

@@ -1,7 +1,9 @@
+from typing import List
+
 import pytest
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from typing import List
+
 from coding_sequence_finder import (
     get_coding_sequences,
     get_coding_sequences_for_gene,
@@ -62,7 +64,6 @@ def test_get_coding_sequences_for_gene(gene: SeqRecord, expected_sequences: List
         ("AUGAAAUAG", "AUGAAAUAG", 9),  # Start to another valid stop
         ("AUGGCCGGG", "AUGGCCGGG!", -1),  # Start but no stop codon
         ("AUGGCCUAAAAAAUGGGG", "AUGGCCUAA", 9),  # Multiple start codons
-
     ],
 )
 def test_read_orf(

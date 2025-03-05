@@ -1,24 +1,26 @@
 import logging
-from Bio import SeqIO
 from typing import Iterator, List
+
+from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
+
+from gene_prediction.gene_predictor import get_annotated_genes
 from transcription.transcriptor import transcribe_genes_into_rna
 from translation.protein_translator import (
-    translate_multiple_rna_sequences,
     save_protein_sequences_to_fasta,
+    translate_multiple_rna_sequences,
 )
-from gene_prediction.gene_predictor import get_annotated_genes
 
 
 def start(annotated_genes_fasta: str, whole_genome_fasta: str, protein_fasta: str):
     """
     First step is finding the segments of the whole genome that get transcribed into RNA. (???)
-    We will then find the coding sequences in the RNA. (exons/introns)
+    We will then find the coding sequences in the RNA. 
     Then we can translate the coding sequences into proteins. (amino acid table)
     Then we can compare the proteins with the proteins from the protein FASTA file.
     """
 
-    annotated_genes: Iterator[SeqRecord] = get_annotated_genes(annotated_genes_fasta)
+    annotated_genes: Iterator[SeqRecord] = get_annotated_genes(whole_genome_fasta, annotated_genes_fasta)
 
     rna_sequences: List[SeqRecord] = transcribe_genes_into_rna(annotated_genes)
 

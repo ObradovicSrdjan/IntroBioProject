@@ -1,8 +1,8 @@
+import logging
 import os
 from typing import List
-from Bio.SeqRecord import SeqRecord
-import logging
 
+from Bio.SeqRecord import SeqRecord
 
 codon_to_amino_acid = {
     "AUA": "I",

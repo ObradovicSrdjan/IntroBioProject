@@ -1,6 +1,7 @@
-from Bio.SeqRecord import SeqRecord
-from typing import List, Iterator
 import logging
+from typing import Iterator, List
+
+from Bio.SeqRecord import SeqRecord
 
 
 def transcribe_dna_sequence_into_rna(dna_sequence: SeqRecord) -> SeqRecord:

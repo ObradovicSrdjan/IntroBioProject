@@ -1,7 +1,8 @@
-import torch
-from transformers import AutoTokenizer, AutoModel
-import numpy as np
 import logging
+
+import numpy as np
+import torch
+from transformers import AutoModel, AutoTokenizer
 
 # Configure logging
 logging.basicConfig(
