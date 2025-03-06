@@ -35,13 +35,13 @@ logits = outputs[0]
 predictions = torch.argmax(logits, dim=-1)
 
 # Log the predictions
-logging.info(predictions)
+# logging.info(predictions)
 
-# Map predictions back to the input sequence
-token_ids = tokens["input_ids"][0].tolist()
-predicted_labels = predictions[0].tolist()
+# # Map predictions back to the input sequence
+# token_ids = tokens["input_ids"][0].tolist()
+# predicted_labels = predictions[0].tolist()
 
-# Decode the tokens and print the sequence with predicted labels
-decoded_tokens = tokenizer.convert_ids_to_tokens(token_ids)
-for token, label in zip(decoded_tokens, predicted_labels):
-    print(f"Token: {token}, Label: {label}")
+# # Decode the tokens and print the sequence with predicted labels
+# decoded_tokens = tokenizer.convert_ids_to_tokens(token_ids)
+# for token, label in zip(decoded_tokens, predicted_labels):
+#     print(f"Token: {token}, Label: {label}")
