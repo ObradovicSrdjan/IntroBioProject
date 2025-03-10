@@ -1,8 +1,8 @@
 import pandas as pd
 from pandas import DataFrame
-from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV, train_test_split
 from xgboost import XGBClassifier
 
 # Load the data

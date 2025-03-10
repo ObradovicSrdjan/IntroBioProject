@@ -51,3 +51,7 @@ MANIFEST
 
 # Docker
 docker-compose.override.yml
+
+# FASTA files
+*.fasta
+*.zip

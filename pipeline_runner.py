@@ -3,14 +3,14 @@ from typing import Iterator, List
 from Bio.SeqRecord import SeqRecord
 
 from src.data_loading.genome_fetcher import load_genomes
-
-organisms = ["Escherichia coli", "Salmonella enterica"]
+from src.data_loading.proteins_fetcher import load_proteins_for_genomes
 
 
 def run():
 
-    genomes = load_genomes(organisms)
-    print(genomes)
+    genomes = load_genomes(load_from_disk=False)
+    proteins = load_proteins_for_genomes(genomes, load_from_disk=False)
+
     # rna_sequences: List[SeqRecord] = transcribe_genes_into_rna(annotated_genes)
 
     # protein_sequences: List[str] = translate_multiple_rna_sequences(rna_sequences)

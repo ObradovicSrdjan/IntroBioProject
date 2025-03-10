@@ -1,9 +1,10 @@
-from typing import List
-from Bio import SeqIO
-import pandas as pd
-import matplotlib.pyplot as plt
-import random
 import os
+import random
+from typing import List
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from Bio import SeqIO
 
 CSV_FILE_PATH = "data/generated_data/genes_training_set.csv"
 NUMBER_OF_GENES = 4639

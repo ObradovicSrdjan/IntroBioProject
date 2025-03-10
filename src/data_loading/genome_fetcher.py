@@ -1,66 +1,80 @@
-from typing import List
-from Bio import Entrez
 import logging
-from Bio.Entrez.Parser import DictionaryElement
 import os
-from Bio import SeqIO
+import time
+from typing import List
+
+from Bio import Entrez, SeqIO
+from Bio.Entrez.Parser import DictionaryElement
 from Bio.SeqRecord import SeqRecord
 
-Entrez.email = (
-    "Your.Name.Here@example.org"  # Why do we need to provide an email address?
+from src.config import (
+    ENTREZ_EMAIL,
+    FILE_FORMAT,
+    GENOMES_RAW_DATA_FILE_PATH,
+    MAX_GENOMES,
 )
 
+RETRY_COUNT = 5
+RETRY_DELAY_SECONDS = 3
 
-MAX_GENOMES = 2
-
-FILE_FORMAT = "fasta"
-
-RAW_DATA_FOLDER_PATH = "data/raw"
+Entrez.email = ENTREZ_EMAIL
 
 
-def get_genome_ids(organism: str, max_results: int = MAX_GENOMES) -> List[str]:
-    search_query = f'"{organism}"[Organism] AND "complete genome"[Title]'
-    handle = Entrez.esearch(db="nucleotide", term=search_query, retmax=max_results)
+def get_genome_ids(max_results: int = MAX_GENOMES) -> List[str]:
+    search_query = f'Bacteria[Organism] AND "complete genome"[Title]'
+    handle = Entrez.esearch(
+        db="nucleotide", term=search_query, retmax=max_results, sorted="relevance"
+    )
     record = Entrez.read(handle)
     handle.close()
     if isinstance(record, DictionaryElement) and "IdList" in record:
         id_list = record["IdList"]
-        logging.info(f"Found {len(id_list)} genomes for {organism}")
+        logging.info(f"Found {len(id_list)} bacterial genomes")
         if id_list:
             return record["IdList"]
-    logging.error(f"No genome found for {organism}")
+    logging.error(f"No bacterial genomes found")
     return []
 
 
-def download_genomes(organisms: List[str], file_format: str = FILE_FORMAT) -> None:
-    logging.info("Dowloading genes from Entrez...")
-    for organism in organisms:
-        genome_ids = get_genome_ids(organism)
-        for genome_id in genome_ids:
-            handle = Entrez.efetch(
-                db="nucleotide", id=genome_id, rettype=FILE_FORMAT, retmode="text"
-            )
-            filename = f"{RAW_DATA_FOLDER_PATH}/genome_{genome_id}.{FILE_FORMAT}"
-            with open(filename, "w") as f:
-                f.write(handle.read())
-            logging.info(f"Genome saved to {filename}")
-            handle.close()
+def download_genomes() -> None:
+    logging.info("Downloading genes from Entrez...")
+    genome_ids = get_genome_ids()
+    for genome_id in genome_ids:
+        filename = f"{GENOMES_RAW_DATA_FILE_PATH}/genome_{genome_id}.{FILE_FORMAT}"
+        if os.path.exists(filename):
+            logging.info(f"Genome {genome_id} already exists, skipping download.")
+            continue
+
+        for attempt in range(RETRY_COUNT):
+            try:
+                handle = Entrez.efetch(
+                    db="nucleotide", id=genome_id, rettype=FILE_FORMAT, retmode="text"
+                )
+                with open(filename, "w") as f:
+                    f.write(handle.read())
+                logging.info(f"Genome saved to {filename}")
+                handle.close()
+                break
+            except Exception as e:
+                logging.error(
+                    f"Failed to download genome {genome_id} on attempt {attempt + 1}: {e}"
+                )
+                if attempt < RETRY_COUNT - 1:
+                    time.sleep(RETRY_DELAY_SECONDS)
+                else:
+                    logging.error(f"Exceeded maximum retries for genome {genome_id}")
 
 
-def load_genomes(organisms: List[str]) -> List[SeqRecord]:
-    # Todo fix this
-    # if not os.path.exists(RAW_DATA_FOLDER_PATH) or not any(
-    #     os.scandir(RAW_DATA_FOLDER_PATH)
-    # ):
-    #     download_genomes(organisms)
-    # else:
-    #     logging.info("Genomes already downloaded, loading from disk...")
-
-    download_genomes(organisms)
+def load_genomes(load_from_disk: bool = False) -> List[SeqRecord]:
+    if not load_from_disk:
+        download_genomes()
 
     genomes = []
-    for file in os.listdir(RAW_DATA_FOLDER_PATH):
+    for file in os.listdir(GENOMES_RAW_DATA_FILE_PATH):
         if file.endswith(FILE_FORMAT):
-            genomes.append(SeqIO.read(f"{RAW_DATA_FOLDER_PATH}/{file}", FILE_FORMAT))
+            logging.info(f"Loading genome from {file}")
+            genomes.append(
+                next(SeqIO.parse(f"{GENOMES_RAW_DATA_FILE_PATH}/{file}", FILE_FORMAT))
+            )
 
     return genomes
